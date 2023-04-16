@@ -1,22 +1,25 @@
-const {Client, Collection, Intents} = require('discord.js');
+const {Client, Collection, GatewayIntentBits, ActivityType} = require('discord.js')
 const BotToken = require('./config.json').token;
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const { SlashCommandBuilder } = require('discord.js');
 
-const myIntents = new Intents();
-myIntents.add(Intents.FLAGS.GUILDS, 'GUILD_VOICE_STATES');
+const client = new Client({
+	intents: [
+		GatewayIntentBits.Guilds,
+		GatewayIntentBits.GuildMessages,
+		GatewayIntentBits.MessageContent,
+		GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildVoiceStates
+	],
+});
 
-const client = new Client({ intents: myIntents});
 
 
 client.once('ready', () => {
 	console.log('Ready!');
-  client.user.setPresence({ 
-    activities: [{ 
-      name: '/roll stats',
-      type: "LISTENING"
-       }],
-    status: "online"
-    });
+  client.user.setPresence({
+    activities: [{ name: `/roll stats`, type: ActivityType.Listening }],
+    status: 'Ready',
+  });
 });
 
 
